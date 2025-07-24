@@ -1,0 +1,914 @@
+---
+format:
+  revealjs:
+    logo: "imagenes/logo_portada2.png"
+    footer: "Unidad de Gobiernos de Datos"
+    slide-number: true
+    chalkboard: true
+    multiplex: false
+    preview-links: auto
+    page-layout: custom
+    scrollable: true
+    #navigation-mode: vertical
+    controls-layout: bottom-right
+    controls-tutorial: true
+    #transition: slide
+    background-transition: fade
+    highlight-style: github
+    code-line-numbers: true
+    code-overflow: wrap
+    html-math-method: katex
+    css: ine_quarto_styles.css
+    margin: 0
+    width: 1300
+    auto-stretch: false
+    fontsize: 20pt
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# 
+
+[<img src="imagenes/logo_portada2.png" width="40%"/>]{.center-justified}
+
+[**Reproducibilidad II: control de versiones y orquestadores**]{.big-par .center-justified}
+
+
+[**Unidad de Gobierno de Datos**]{.big-par .center-justified}
+
+[**Julio 2025**]{.big-par .center-justified}
+
+
+
+---
+
+## Contenidos de la clase 
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+![](imagenes/git.png){width="80"}
+
+### Git
+
+::: {.incremental .medium-par}
+- Proyectos de R y rutas relativas  
+- ¿Qué es Git y para qué sirve?  
+- Principales conceptos asociados a Git  
+- Esquema de trabajo en git  
+- Conflictos de merge  
+- Árbol de commits  
+- Uso de ramas  
+- El .gitignore  
+- Recomendaciones sobre uso de git  
+:::
+:::
+
+
+
+::: {.column width="50%"}
+
+![](imagenes/logo_targets.png){width="80"}
+
+### Targets
+
+::: {.incremental .medium-par}
+- Qué son los orquestadores  
+- Qué es targets  
+- Aplicación en R  
+:::
+:::
+
+:::
+
+---
+
+
+## Objetivo de la clase
+
+- Quedar habilitado en el uso básico de git (git clone, git push, git pull)
+
+. . .
+
+::: {.callout-important}
+## MUY IMPORTANTE:
+
+- Deben trabajar desde sus computadores personales
+- Deben tener una cuenta en *github*
+:::
+
+. . .
+
+- Entender la utilidad de los orquestadores
+- Quedar habilitados en el uso básico de targets para orquestar sus proyectos.
+
+
+---
+
+## ¿Qué es Git y para qué sirve? 
+
+![](imagenes/documento_final.gif){fig-align="center" width="30%"}
+
+---
+
+## ¿Qué es Git y para qué sirve? {.medium-par}
+
+:::: {.columns}
+
+::: {.column width="85%" }
+
+
+::: incremental
+- Es un sistema de control de versiones (VCS): nos dice quién hizo qué y cuándo en nuestro proyecto  
+
+
+
+- Permite que varias personas trabajen en un mismo proyecto sin molestarse unos a otros
+
+- Funciona como una máquina del tiempo: 
+
+:::
+
+::: {.incremental}
+- Cada cierto tiempo sacamos una "foto" de todos los archivos del proyecto
+- Estas fotos no desaparecen
+- Siempre es posible volver a una foto anterior
+
+:::
+
+::: fragment
+Nos protege:
+:::
+
+
+::: {.incremental}
+- De nuestra propia estupidez
+- De fallas en el disco duro (podemos sincronizar nuestros cambios en la nube)
+
+:::
+
+:::
+
+::: {.column width="15%"}
+![](imagenes/git.png){width="140"}
+:::
+
+::::
+
+---
+
+
+
+
+## Principales conceptos {.medium-par}
+
+Git nos permite navegar de manera "sencilla" por las distintas versiones de un archivo
+
+![](imagenes/diagrama.png){fig-align="center" width="300"}
+
+. . .
+
+### Podemos rastrear dónde y cuándo se producen los errores
+
+![](imagenes/pikachu.png){fig-align="center" width="250"}
+
+---
+
+## Estados en Git 
+
+![](imagenes/estados-git.png){fig-align="center" width="500"}
+
+Tenemos 3 estados para nuestros archivos:
+
+- Modificado
+- "En escena" (*staging area*)
+- Confirmado o comprometido (*committed*)
+
+---
+
+## Principales conceptos {.medium-par}
+
+::: {.incremental}
+- Ciclos sucesivos de *modificar, poner en escena y confirmar* van generando el historial de cambios de nuestro repositorio
+- Cada _commit_ es una foto del estado de nuestros archivos a la que podemos acceder cuando queramos
+- **NO** podemos acceder a estados intermedios entre dos _commit_
+- Queremos hacer _commit_ frecuentemente y con un número de cambios manejable
+- Si quiero trabajar de manera individual, no necesito más que lo que hemos visto hasta ahora
+:::
+
+. . .
+
+**¿Qué pasa si necesito trabajar con más personas?**
+
+---
+
+## Principales conceptos {.medium-par .nostretch}
+
+![](imagenes/diagrama-git.png){fig-align="center" width="50%"}
+
+. . .
+
+Git puede funcionar sin problemas de manera local
+
+Gitlab, Github, etc se usan para trabajar con más personas
+
+---
+
+## Principales conceptos 
+
+![](imagenes/flujo_git.png){fig-align="center" width="45%"}
+
+::: {.aside}
+Ilustración por Allison Horst, https://allisonhorst.com/git-github
+:::
+
+---
+
+## Repositorio remoto 
+
+![](imagenes/diagrama-colaborativo.png){fig-align="center" width="600"}
+
+. . .
+
+### Varias personas aportan a un mismo repositorio
+
+::: {.columns}
+
+::: {.column width="50%"}
+![](imagenes/logos.png){width="400"}
+:::
+
+::: {.column width="50%"}
+![](imagenes/logo_distinto.png){width="700"}
+:::
+
+:::
+
+---
+
+## Esquema de trabajo en Git 
+
+![](https://i.gifer.com/2DAN.gif){fig-align="center" width="450"}
+
+Los commit nos permiten sujetarnos a la roca 
+
+. . .
+
+En terreno peligroso, es mejor hacer más commits.  
+
+. . .
+
+Si nos caemos, tendremos un punto del cual sujetarnos
+
+---
+
+## Esquema de trabajo en Git 
+
+::: {.incremental}
+- Luego de hacer nuestros _commit_, usualmente vamos a querer enviarlos al repositorio remoto para que el resto pueda verlos a través de un _push_
+- Antes de hacer un _push_, es necesario actualizar nuestro proyecto con los cambios que otros/as colegas puedan haber realizado desde la última vez que nos sincronizamos con el repositorio remoto. Para esto, usamos `git pull`
+- Si es que fue posible traer los cambios remotos **sin problemas** y teniendo seguridad que nuestro código funciona, procedemos a empujar nuestros cambios con un `git push`
+:::
+
+::: fragment
+
+Por lo tanto, el flujo normal de trabajo es siempre:
+:::
+
+::: fragment
+### commit - pull - push
+:::
+
+:::: fragment
+::: {.columns}
+
+::: {.column width="35%"}
+![](imagenes/no_olvidar.png){width=30%}
+:::
+
+::: {.column width="35%"}
+
+**Probemos nuestro primer flujo `git`!**
+:::
+
+:::
+::::
+---
+
+## ¿Sin problemas? {.medium-par}
+
+::: {.incremental}
+- Al hacer `pull` traemos los cambios que han hecho el resto de colegas a nuestro repositorio local y `git` trata de incorporarlo con los `commit` que hemos realizado desde la última vez que hicimos `pull`. A esto se le llama `merge`.
+- Si los cambios que existen en nuestros `commit` no tienen intersección con los de los `commit` de nuestros colegas, no habrá problema. Dos casos:
+  - Cambios en archivos diferentes
+  - Cambios en el mismo archivo, pero distintas líneas
+- Ahora, si nuestros `commit` y algún `commit` recibido en el `pull` cambian la misma línea de un archivo, tendremos [problemas]{.fragment .highlight-red}: un conflicto de _merge_.
+:::
+
+. . .
+
+![](imagenes/git_merge.gif){fig-align="center" width="30%"}
+
+. . .
+
+**Probemos cómo generar y resolver un conflicto de merge**
+
+---
+
+## Conflicto de merge {.medium-par}
+
+:::: {.columns}
+
+::: {.column width="15%"}
+![](imagenes/merge_conflict1.png){width=100%}
+:::
+
+::: {.column width="85%"}
+← Su script se verá similar a esto
+:::
+
+::::
+
+. . .
+
+Básicamente `git` nos muestra cómo están las líneas que tienen cambios simultáneos en nuestro repositorio y en el script en el repositorio remoto. 
+
+Aquí debemos editar el script para que quede funcional, de acuerdo a los objetivos del proyecto y del script. Para esto no existe receta, podrían mantenerse ambos cambios, uno de los dos o ninguno:
+
+. . .
+
+![](imagenes/merge_conflict2.png){fig-align="center" width="75%"}
+
+. . .
+
+Luego de editar el script, es necesario realizar un `commit` y luego un `push` con lo que se soluciona el conflicto de `merge`.
+
+. . .
+
+::: {.callout-important}
+**Nota importante:** cuando hacemos un `pull` con conflicto de `merge`, nos aparecerán todos los cambios al repositorio que ha habido desde la última vez que hicimos `pull` en la pestaña Git. Solo debemos preocuparnos por los archivos que aparezcan con un símbolo de "U", que implican que ese archivo específico tiene conflicto de merge.
+:::
+
+---
+
+## Conflicto de merge 
+
+Ejemplo de lo anterior:
+
+![](imagenes/merge_conflict3.png){fig-align="center" width="85%"}
+
+La terminal también nos indicará los archivos con conflicto:
+
+![](imagenes/merge_conflict4.png){fig-align="center" width="85%"}
+
+---
+
+## El árbol de commits {.small-par}
+
+::::: {.columns}
+
+:::: {.column width="50%"}
+
+::: fragment
+El árbol de commits es una representación visual de la historia de nuestro proyecto.
+:::
+
+::: fragment
+Nos muestra cada commit, nos permite acceder a sus contenidos y nos muestra dónde nos encontramos actualmente en la historia del árbol y dónde se encuentran las otras ramas, en caso de existir.
+:::
+
+::: fragment
+**¿Qué es una rama?**
+:::
+
+
+::: fragment
+Simplemente es un puntero a un `commit` específico, que contiene la información de sus ancestros.
+:::
+
+::::
+
+
+::: {.column width="50%"}
+![](imagenes/arbol_commit1.gif){width="42%"}
+:::
+
+:::::
+---
+
+## El árbol de commits {.small-par}
+
+::: {.columns}
+
+::: {.column width="50%"}
+::: {.small}
+El árbol de commits es una representación visual de la historia de nuestro proyecto.
+
+Nos muestra cada commit, nos permite acceder a sus contenidos y nos muestra dónde nos encontramos actualmente en la historia del árbol y dónde se encuentran las otras ramas, en caso de existir.
+
+**¿Qué es una rama?**
+
+Simplemente es un puntero a un `commit` específico, que contiene la información de sus ancestros.
+
+Si nos encontramos parados en una rama y realizamos un `commit` el puntero de la rama se moverá al commit más reciente.
+:::
+:::
+
+::: {.column width="50%"}
+![](imagenes/arbol_commit2.gif){width=42%}
+:::
+
+:::
+
+---
+
+## El árbol de commits {.small-par}
+
+::: {.columns}
+
+::: {.column width="50%"}
+::: {.small}
+El árbol de commits es una representación visual de la historia de nuestro proyecto.
+
+Nos muestra cada commit, nos permite acceder a sus contenidos y nos muestra dónde nos encontramos actualmente en la historia del árbol y dónde se encuentran las otras ramas, en caso de existir.
+
+**¿Qué es una rama?**
+
+Simplemente es un puntero a un `commit` específico, que contiene la información de sus ancestros.
+
+Si nos encontramos parados en una rama y realizamos un `commit` el puntero de la rama se moverá al commit más reciente.
+
+La rama principal se llama main o master, que aloja la versión oficial de nuestro proyecto, pero podemos crear tantas como queramos
+:::
+:::
+
+::: {.column width="50%"}
+![](imagenes/arbol_commit3.gif){width="42%"}
+:::
+
+:::
+
+---
+
+## El árbol de commits {.small-par}
+
+::: {.columns}
+
+::: {.column width="50%"}
+::: {.small}
+El árbol de commits es una representación visual de la historia de nuestro proyecto.
+
+Nos muestra cada commit, nos permite acceder a sus contenidos y nos muestra dónde nos encontramos actualmente en la historia del árbol y dónde se encuentran las otras ramas, en caso de existir.
+
+**¿Qué es una rama?**
+
+Simplemente es un puntero a un `commit` específico, que contiene la información de sus ancestros.
+
+Si nos encontramos parados en una rama y realizamos un `commit` el puntero de la rama se moverá al commit más reciente.
+
+La rama principal se llama main o master, que aloja la versión oficial de nuestro proyecto, pero podemos crear tantas como queramos
+
+Todo software presenta alguna forma de acceder a este árbol; en el caso de Rstudio nos da acceso en Tools → Version control → History.
+
+::: fragment
+**¡Veamos el árbol de _commits_ de nuestro proyecto actual!**
+:::
+
+
+:::
+:::
+
+::: {.column width="50%"}
+![](imagenes/arbol_commit4.gif){width="42%"}
+:::
+
+:::
+
+
+
+
+
+---
+
+## Trabajando con ramas 
+
+::: {.incremental}
+- Es la forma más segura de trabajar en git: nuestro trabajo no tocará la rama principal hasta que lo decidamos
+- Cada desarrollador puede trabajar en una rama independiente, sin molestar a los demás
+- En proyectos grandes, los desarrolladores **en general** no tienen permiso para empujar directamente a la rama main/master, tienen que "pedir permiso" para hacerlo
+- Existe un administrador encargado de revisar y unir (`merge`) las contribuciones a la rama central
+  - Decide si el aporte debe incorporarse 
+  - Resuelve conflictos
+- Por ahora nos centraremos en el caso básico en que tenemos total libertad de hacer `commit`, `push` y `pull`
+:::
+
+. . .
+
+**¡Creemos nuestras primeras ramas!**
+
+---
+
+## El .gitignore {.medium-par}
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+::: fragment
+Cuando trabajamos con repositorios remotos, muchas veces existen archivos que queremos mantener solo en nuestro computador o que no son realmente compatibles con un repositorio git, por lo que no queremos subirlos a la nube:
+:::
+
+::: {.incremental}
+- Archivos que no son pertinentes al objetivo del proyecto.
+- Archivos temporales y de caché.
+- Archivos personales (por ejemplo, .Rprofile, scripts de pruebas).
+- Archivos muy grandes (por ejemplo, tablas de datos pesadas).
+:::
+
+
+::: fragment
+Estos los anotamos en el archivo .gitignore, que es un archivo de texto simple.
+:::
+
+:::fragment
+**Importante:** .gitignore tiene algunas notaciones particulares, pero lo más relevante es que el * sirve como comodín
+:::
+
+::: fragment
+**¡Hagamos pruebas de uso del .gitignore!**
+:::
+:::
+::: {.column width="50%"}
+![](imagenes/gitignore.png){width="60%"}
+:::
+
+:::
+
+---
+
+## Recomendaciones sobre cómo interactuar con git 
+
+Revisamos cómo interactuar con git a través de la terminal y RStudio
+
+. . .
+
+**¿Cuál es mejor?**
+
+. . .
+
+No hay una respuesta correcta, depende de cada persona. La botonera es más sencilla, pero, por lo mismo, más incompleta y menos transparente.
+
+. . .
+
+Recomendación general: si es que les acomoda, para operaciones más sencillas (`add`, `commit`, `push`, `pull`), la botonera de RStudio basta. Si queremos dar un uso más avanzado, la terminal puede darnos más control.
+
+. . .
+
+Existen alternativas intermedias como GitKraken, que proporcionan una interfaz de usuario enfocada en git, permitiendo más operaciones que las posibles en la botonera de RStudio. Tarea para la casa.
+
+---
+
+## Torpedo 
+
+::: {.columns}
+
+::: {.column width="50%"}
+**git add .**: poner todo en escena
+
+**git commit -m "mensaje personalizado"**: confirmar cambios
+
+**git push nombre_rama**: empujar a rama remota
+
+**git clone url_repositorio**: clonar un repositorio
+
+**git pull nombre_rama**: traer cosas del repositorio
+:::
+
+::: {.column width="50%"}
+**git checkout nombre_rama**: ir a una rama
+
+**git branch**: ver todas las ramas
+
+**git branch nombre_rama**: crear una rama
+:::
+
+:::
+
+
+
+# Orquestadores con Targets
+![](imagenes/logo_targets.png){width="150"}
+
+---
+
+## ¿Qué es un orquestador? 
+
+::: incremental
+- Es una herramienta que maneja y coordina flujos de trabajo complejos.
+
+- Se suelen utilizar en flujos de **procesamiento y analítica de datos**, ingeniería de datos,
+machine learning.
+
+
+- Se preocupa de que el flujo de trabajo:
+
+:::: {.columns}
+::: {.column width="50%"}
+  - Corra cada paso en el orden correcto.
+  - Corra cuando queramos que corra.
+  - Se hace cargo de errores y reintentos.
+  
+:::
+  
+::: {.column width="50%"}
+  - Deja logs de sus estados ejecución (error/éxito).
+  - Pueden ser monitoreados y debuggeados.
+  
+:::
+  
+::::
+
+:::
+
+![](imagenes/orquestador.png){width=80%}
+
+---
+
+## ¿Qué es targets?
+
+::: incremental
+- Targets es un orquestador diseñado específicamente para estadística y ciencia de datos en R.
+
+- Está basado en la tecnología [Make](https://www.gnu.org/software/make/).
+
+- Permite evitar operaciones costosas innecesarias -> sabe qué piezas del código han cambiado desde la última vez
+que se corrió el _pipeline_ y, por lo tanto, cuáles son necesarias de correr y cuáles no.
+
+- `targets` nos ahorra tiempo y ordena el proyecto.
+:::
+
+
+
+![](imagenes/targets_pipeline.png){width=45%}
+
+
+---
+
+## Conceptos clave
+
+::: incremental
+
+1. `_targets.R`: aquí definimos el pipeline del proyecto.
+    - Básicamente acá se define toda la secuencialidad del proyecto.
+
+2. `tar_target()`: define una unidad de trabajo
+
+3. **DAG**: grafo dirigido acíclico de dependencias, por sus siglas en inglés. Es la imagen de la diapo anterior
+   - Muestra cómo es la interdependendencia entre cada etapa del procesamiento. 
+:::
+
+
+![](imagenes/targets_pipeline.png){width=45%}
+
+---
+
+## Implementando en R
+
+Desarrollaremos un ejemplo con una estructura extra básica:
+
+``` 
+
+su_proyecto/
+├── data.csv               # archivo de datos del proyecto
+├── functions.R            # funciones asociadas al proyecto
+└── _targets.R             # Definición del pipeline
+
+```
+
+::: fragment
+Como mencionamos, el archivo clave es `_targets.R`. Revisemos cómo se debería ver.
+
+:::
+
+
+---
+
+## Implementando en R
+
+Tenemos `data.csv` con información de edad y puntaje:
+
+``` {r}
+#| code-fold: true
+#| code-summary: "Mostrar código"
+library(tidyverse)
+df = readr::read_csv('data/data.csv')
+print(df)
+
+```
+
+Tenemos `functions.R` con funciones simples:
+
+```{r}
+
+read_my_data <- function(path) {
+  read.csv(path)
+}
+
+process_data <- function(df) {
+  df[df$age > 28, ]  # Mantenemos mayores a 28
+}
+
+edit_data <- function(df) {
+  df$score_scaled <- df$score / 100  # normalizamos score
+  df
+}
+
+```
+
+---
+
+## Implementando en R
+
+Finalmente `_targets.R`
+
+``` {r}
+
+library(targets)
+
+# Load custom functions
+source("functions.R")
+
+# Seteamos opciones que se aplicarán en cada target 
+tar_option_set(
+  packages = c("dplyr", "readr"),  # paquetes que usaremos
+  error = 'continue', # cómo gestionamos errores
+  format = 'feather' # Cómo se exportan e importan resultados de targets.
+  # ... hay varias opciones más
+)
+
+# Definimos pipeline
+pipeline = list(
+  tar_target(
+    raw_data,
+    read_my_data("data/data.csv")
+  ),
+  tar_target(
+    processed_data,
+    process_data(raw_data)
+  ),
+  tar_target(
+    final_data,
+    edit_data(processed_data)
+  )
+)
+```
+
+---
+
+## Implementando en R
+
+Finalmente tenemos una archivo donde correremos el pipeline
+
+``` {r}
+#| echo: true
+
+tar_destroy() # reinicia targets
+# Corre todos los pasos
+tar_make()
+
+# Vemos resultado del último paso
+tar_read(final_data)
+
+# Visualizar gráfico de dependencias
+tar_visnetwork()
+
+```
+
+---
+
+## Implementando en R
+
+### Exportando archivos en carpetas específicas
+
+En el ejemplo anterior, los objetos se crean en carpetas temporales de `targets`.
+
+::: fragment
+¿Qué pasa si nuestro procesamiento requiere que exportemos tablas en lugares específicos?
+:::
+
+::: fragment
+`targets` tiene un sistema para eso!
+:::
+
+::: fragment
+Requiere una pequeña modificación en la función y en el target
+
+:::
+
+::: incremental
+
+- La función debe exportar una tabla
+
+- La función debe retornar el path de la tabla exportada
+
+:::
+
+
+::: fragment
+
+Modifiquemos la función final para que funcione de esta manera 
+:::
+
+---
+
+## Implementando en R
+
+### Exportando archivos en carpetas específicas
+
+
+```{r filename="functions.R", eval=F}
+
+read_my_data <- function(path) {
+  read.csv(path)
+}
+
+process_data <- function(df) {
+  df[df$age > 28, ]  # Mantenemos mayores a 28
+}
+
+edit_data <- function(df) {
+  df$score_scaled <- df$score / 100  # normalizamos score
+  
+  path_df = 'data/df_proc.feather'
+  
+  df %>% feather::write_feather(path_df) # Exportamos tabla
+
+  return(path_df) # Retornamos path de la tabla
+}
+
+```
+
+---
+
+## Implementando en R
+
+### Exportando archivos en carpetas específicas
+
+``` {r filename='main.R', eval=F}
+tar_destroy() # reinicia targets
+# Corre todos los pasos
+tar_make()
+
+# Vemos resultado del último paso
+dir_final_data = tar_read(final_data)  # Ahora es un directorio
+df = feather::read_feather(dir_final_data) # Cargamos tabla
+
+
+
+```
+
+::: fragment
+Esto debiese ser suficiente para tener una idea básica de cómo utilizar `targets`
+:::
+
+::: fragment
+Quedan invitados a revisar [su documentación](https://books.ropensci.org/targets/) para explorar un uso más avanzado
+:::
+
+
+---
+
+
+
+## Material de consulta 
+
+[Guía muy completa en español](https://git-scm.com/book/es/v2)
+
+[Git con enfoque en R](https://happygitwithr.com/)
+
+[Learn git branching](https://learngitbranching.js.org/)
+
+[Clase introductoria a targets](https://wlandau.github.io/targets-intro)
+
+
+---
+
+## {#title-slide-end .center}
+
+![](imagenes/logo_portada2.png){width="200"}
+
+### Reproducibilidad II: control de versiones y orquestadores
+
+### Unidad de Gobierno de Datos
+
+#### Julio 2025
+
+---
+
+## Ejemplo de uso 
+
+![](imagenes/esquema_git.png){fig-align="center" width="800"}
