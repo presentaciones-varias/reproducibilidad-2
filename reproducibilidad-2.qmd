@@ -137,6 +137,8 @@ execute:
 - Cada cierto tiempo sacamos una "foto" de todos los archivos del proyecto
 - Estas fotos no desaparecen
 - Siempre es posible volver a una foto anterior
+  - [**IMPORTANTE**]{.red} : **NO** podemos volver volver a un estado entre dos fotos.
+  
 
 :::
 
@@ -178,15 +180,47 @@ Git nos permite navegar de manera "sencilla" por las distintas versiones de un a
 
 ---
 
-## Estados en Git 
 
-![](imagenes/estados-git.png){fig-align="center" width="500"}
 
-Tenemos 3 estados para nuestros archivos:
 
-- Modificado
-- "En escena" (*staging area*)
-- Confirmado o comprometido (*committed*)
+## Las tres áreas de Git {.medium-par}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+::: {.incremental}
+- **Directorio de trabajo** (*Working Directory*): 
+  - Es la carpeta donde trabajamos día a día
+  - Aquí editamos nuestros archivos
+  - Los archivos pueden estar modificados, sin modificar, no trackeados o ser nuevos
+
+- **Área de staging** (*Staging Area*):
+  - Es el lugar donde preparamos nuestros cambios antes de confirmarlos
+  - Seleccionamos qué cambios queremos incluir en el próximo _commit_
+  - Nos permite ser selectivos con lo que confirmamos
+
+- **Repositorio local** (*Local Repository*):
+  - Aquí se almacenan todas las "fotos" (_commits_) de nuestro proyecto
+  - Es el historial permanente de cambios
+  - Cada _commit_ es una versión completa y segura del proyecto
+:::
+
+:::
+
+::: {.column width="40%"}
+![](imagenes/estados-git.png){width="100%"}
+
+::: fragment
+### Flujo típico:
+1. Modificar archivos
+2. Agregar al staging (`git add`)
+3. Confirmar cambios (`git commit`)
+:::
+
+:::
+
+::::
 
 ---
 
@@ -194,7 +228,6 @@ Tenemos 3 estados para nuestros archivos:
 
 ::: {.incremental}
 - Ciclos sucesivos de *modificar, poner en escena y confirmar* van generando el historial de cambios de nuestro repositorio
-- Cada _commit_ es una foto del estado de nuestros archivos a la que podemos acceder cuando queramos
 - **NO** podemos acceder a estados intermedios entre dos _commit_
 - Queremos hacer _commit_ frecuentemente y con un número de cambios manejable
 - Si quiero trabajar de manera individual, no necesito más que lo que hemos visto hasta ahora
@@ -248,21 +281,6 @@ Ilustración por Allison Horst, https://allisonhorst.com/git-github
 
 :::
 
----
-
-## Esquema de trabajo en Git 
-
-![](https://i.gifer.com/2DAN.gif){fig-align="center" width="450"}
-
-Los commit nos permiten sujetarnos a la roca 
-
-. . .
-
-En terreno peligroso, es mejor hacer más commits.  
-
-. . .
-
-Si nos caemos, tendremos un punto del cual sujetarnos
 
 ---
 
@@ -663,7 +681,7 @@ que se corrió el _pipeline_ y, por lo tanto, cuáles son necesarias de correr y
 ::: incremental
 
 1. `_targets.R`: aquí definimos el pipeline del proyecto.
-    - Básicamente acá se define toda la secuencialidad del proyecto.
+    - Básicamente aca se define toda la secuencialidad del proyecto.
 
 2. `tar_target()`: define una unidad de trabajo
 

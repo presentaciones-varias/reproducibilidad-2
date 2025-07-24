@@ -307,7 +307,10 @@
 <ul>
 <li class="fragment">Cada cierto tiempo sacamos una “foto” de todos los archivos del proyecto</li>
 <li class="fragment">Estas fotos no desaparecen</li>
-<li class="fragment">Siempre es posible volver a una foto anterior</li>
+<li class="fragment">Siempre es posible volver a una foto anterior
+<ul>
+<li class="fragment"><span class="red"><strong>IMPORTANTE</strong></span> : <strong>NO</strong> podemos volver volver a un estado entre dos fotos.</li>
+</ul></li>
 </ul>
 <div class="fragment">
 <p>Nos protege:</p>
@@ -337,25 +340,46 @@
 </div>
 </div>
 </section>
-<section id="estados-en-git" class="slide level2">
-<h2>Estados en Git</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="imagenes/estados-git.png" class="quarto-figure quarto-figure-center" width="500"></p>
-</figure>
-</div>
-<p>Tenemos 3 estados para nuestros archivos:</p>
+<section id="las-tres-áreas-de-git" class="slide level2 medium-par scrollable">
+<h2>Las tres áreas de Git</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
 <ul>
-<li>Modificado</li>
-<li>“En escena” (<em>staging area</em>)</li>
-<li>Confirmado o comprometido (<em>committed</em>)</li>
+<li class="fragment"><strong>Directorio de trabajo</strong> (<em>Working Directory</em>):
+<ul>
+<li class="fragment">Es la carpeta donde trabajamos día a día</li>
+<li class="fragment">Aquí editamos nuestros archivos</li>
+<li class="fragment">Los archivos pueden estar modificados, sin modificar, no trackeados o ser nuevos</li>
+</ul></li>
+<li class="fragment"><strong>Área de staging</strong> (<em>Staging Area</em>):
+<ul>
+<li class="fragment">Es el lugar donde preparamos nuestros cambios antes de confirmarlos</li>
+<li class="fragment">Seleccionamos qué cambios queremos incluir en el próximo <em>commit</em></li>
+<li class="fragment">Nos permite ser selectivos con lo que confirmamos</li>
+</ul></li>
+<li class="fragment"><strong>Repositorio local</strong> (<em>Local Repository</em>):
+<ul>
+<li class="fragment">Aquí se almacenan todas las “fotos” (<em>commits</em>) de nuestro proyecto</li>
+<li class="fragment">Es el historial permanente de cambios</li>
+<li class="fragment">Cada <em>commit</em> es una versión completa y segura del proyecto</li>
+</ul></li>
 </ul>
+</div><div class="column" style="width:40%;">
+<p><img data-src="imagenes/estados-git.png" style="width:100.0%"></p>
+<div class="fragment">
+<h3 id="flujo-típico">Flujo típico:</h3>
+<ol type="1">
+<li>Modificar archivos</li>
+<li>Agregar al staging (<code>git add</code>)</li>
+<li>Confirmar cambios (<code>git commit</code>)</li>
+</ol>
+</div>
+</div></div>
 </section>
 <section id="principales-conceptos-1" class="slide level2 medium-par">
 <h2>Principales conceptos</h2>
 <ul>
 <li class="fragment">Ciclos sucesivos de <em>modificar, poner en escena y confirmar</em> van generando el historial de cambios de nuestro repositorio</li>
-<li class="fragment">Cada <em>commit</em> es una foto del estado de nuestros archivos a la que podemos acceder cuando queramos</li>
 <li class="fragment"><strong>NO</strong> podemos acceder a estados intermedios entre dos <em>commit</em></li>
 <li class="fragment">Queremos hacer <em>commit</em> frecuentemente y con un número de cambios manejable</li>
 <li class="fragment">Si quiero trabajar de manera individual, no necesito más que lo que hemos visto hasta ahora</li>
@@ -405,21 +429,6 @@
 </div>
 </section>
 <section id="esquema-de-trabajo-en-git" class="slide level2">
-<h2>Esquema de trabajo en Git</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="https://i.gifer.com/2DAN.gif" class="quarto-figure quarto-figure-center" width="450"></p>
-</figure>
-</div>
-<p>Los commit nos permiten sujetarnos a la roca</p>
-<div class="fragment">
-<p>En terreno peligroso, es mejor hacer más commits.</p>
-</div>
-<div class="fragment">
-<p>Si nos caemos, tendremos un punto del cual sujetarnos</p>
-</div>
-</section>
-<section id="esquema-de-trabajo-en-git-1" class="slide level2">
 <h2>Esquema de trabajo en Git</h2>
 <ul>
 <li class="fragment">Luego de hacer nuestros <em>commit</em>, usualmente vamos a querer enviarlos al repositorio remoto para que el resto pueda verlos a través de un <em>push</em></li>
@@ -703,7 +712,7 @@
 <ol type="1">
 <li class="fragment"><p><code>_targets.R</code>: aquí definimos el pipeline del proyecto.</p>
 <ul>
-<li class="fragment">Básicamente acá se define toda la secuencialidad del proyecto.</li>
+<li class="fragment">Básicamente aca se define toda la secuencialidad del proyecto.</li>
 </ul></li>
 <li class="fragment"><p><code>tar_target()</code>: define una unidad de trabajo</p></li>
 <li class="fragment"><p><strong>DAG</strong>: grafo dirigido acíclico de dependencias, por sus siglas en inglés. Es la imagen de la diapo anterior</p>
@@ -804,11 +813,11 @@ su_proyecto/
 <span id="cb6-3"><a href=""></a><span class="fu">tar_make</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+ raw_data dispatched
-✔ raw_data completed [170ms, 1.37 kB]
+✔ raw_data completed [190ms, 1.37 kB]
 + processed_data dispatched
 ✔ processed_data completed [0ms, 938 B]
 + final_data dispatched
-✔ final_data completed [170ms, 488 B]
+✔ final_data completed [190ms, 488 B]
 ✔ ended pipeline [1.1s, 3 completed, 0 skipped]
 Warning messages:
 1: package 'dplyr' was built under R version 4.3.3 
@@ -823,8 +832,8 @@ Warning messages:
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co"># Visualizar gráfico de dependencias</span></span>
 <span id="cb10-2"><a href=""></a><span class="fu">tar_visnetwork</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="visNetwork html-widget html-fill-item" id="htmlwidget-956c1dd34c82534013be" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-956c1dd34c82534013be">{"x":{"nodes":{"name":["edit_data","final_data","process_data","processed_data","raw_data","read_my_data"],"type":["function","stem","function","stem","stem","function"],"description":[null,null,null,null,null,null],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[null,0.17,null,0,0.17,null],"bytes":[null,488,null,938,1370,null],"branches":[null,null,null,null,null,null],"label":["edit_data","final_data","process_data","processed_data","raw_data","read_my_data"],"color":["#354823","#354823","#354823","#354823","#354823","#354823"],"id":["edit_data","final_data","process_data","processed_data","raw_data","read_my_data"],"level":[1,4,1,3,2,1],"shape":["triangle","dot","triangle","dot","dot","triangle"]},"edges":{"from":["edit_data","processed_data","process_data","raw_data","read_my_data"],"to":["final_data","final_data","processed_data","processed_data","raw_data"],"color":["#354823","#354823","#354823","#354823","#354823"],"arrows":["to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"levelSeparation":150,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Function","Regular\ntarget"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","triangle","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+<div class="visNetwork html-widget html-fill-item" id="htmlwidget-691d943bb281024c9407" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-691d943bb281024c9407">{"x":{"nodes":{"name":["edit_data","final_data","process_data","processed_data","raw_data","read_my_data"],"type":["function","stem","function","stem","stem","function"],"description":[null,null,null,null,null,null],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate"],"seconds":[null,0.19,null,0,0.19,null],"bytes":[null,488,null,938,1370,null],"branches":[null,null,null,null,null,null],"label":["edit_data","final_data","process_data","processed_data","raw_data","read_my_data"],"color":["#354823","#354823","#354823","#354823","#354823","#354823"],"id":["edit_data","final_data","process_data","processed_data","raw_data","read_my_data"],"level":[1,4,1,3,2,1],"shape":["triangle","dot","triangle","dot","dot","triangle"]},"edges":{"from":["edit_data","processed_data","process_data","raw_data","read_my_data"],"to":["final_data","final_data","processed_data","processed_data","raw_data"],"color":["#354823","#354823","#354823","#354823","#354823"],"arrows":["to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"levelSeparation":150,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Function","Regular\ntarget"],"color":["#354823","#899DA4","#899DA4"],"shape":["dot","triangle","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -905,6 +914,8 @@ Warning messages:
 <h2>Material de consulta</h2>
 <p><a href="https://git-scm.com/book/es/v2">Guía muy completa en español</a></p>
 <p><a href="https://happygitwithr.com/">Git con enfoque en R</a></p>
+<p><a href="https://learngitbranching.js.org/">Learn git branching</a></p>
+<p><a href="https://wlandau.github.io/targets-intro">Clase introductoria a targets</a></p>
 </section>
 <section id="title-slide-end" class="slide level2 center">
 <h2></h2>
