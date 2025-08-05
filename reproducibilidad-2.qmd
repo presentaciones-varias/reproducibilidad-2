@@ -623,34 +623,43 @@ Existen alternativas intermedias como GitKraken, que proporcionan una interfaz d
 
 ---
 
-## ¿Qué es un orquestador? 
+## ¿Qué es un orquestador?
 
 ::: incremental
-- Es una herramienta que maneja y coordina flujos de trabajo complejos.
 
-- Se suelen utilizar en flujos de **procesamiento y analítica de datos**, ingeniería de datos,
-machine learning.
+Un orquestador es una plataforma que **automatiza la ejecución secuencial y dependiente** de tareas en flujos de datos complejos.
 
+**¿Qué hace?**
 
-- Se preocupa de que el flujo de trabajo:
+- Ejecuta tareas en el **orden correcto** según sus dependencias
+- **Programa ejecuciones** (diarias, semanales, por eventos)
+- Maneja el **flujo de datos** entre diferentes pasos
 
-:::: {.columns}
-::: {.column width="50%"}
-  - Corra cada paso en el orden correcto.
-  - Corra cuando queramos que corra.
-  - Se hace cargo de errores y reintentos.
-  
-:::
-  
-::: {.column width="50%"}
-  - Deja logs de sus estados ejecución (error/éxito).
-  - Pueden ser monitoreados y debuggeados.
-  
-:::
-  
-::::
+**¿Cómo nos ayuda?**
+
+- **Manejo automático de errores** y reintentos inteligentes
+- **Monitoreo en tiempo real** del estado de cada tarea
+- **Logs detallados** para debugging y auditoría
 
 :::
+
+---
+
+## ¿Qué es un orquestador?
+
+**Ejemplo práctico:**
+[Descargar datos del INE → Procesar encuestas de hogares → Calcular indicadores socioeconómicos → Generar reportes automáticos.]{.fragment}
+
+::: fragment
+*Cada paso depende del anterior y se ejecuta automáticamente*
+:::
+
+**¿Dónde se usan?**
+
+::: fragment
+Pipelines de ingeniería de datos, machine learning y **analítica y ciencia de datos**
+:::
+
 
 ![](imagenes/orquestador.png){width=80%}
 
@@ -685,7 +694,7 @@ que se corrió el _pipeline_ y, por lo tanto, cuáles son necesarias de correr y
 
 2. `tar_target()`: define una unidad de trabajo
 
-3. **DAG**: grafo dirigido acíclico de dependencias, por sus siglas en inglés. Es la imagen de la diapo anterior
+3. **DAG**: grafo dirigido acíclico de dependencias, por sus siglas en inglés. Es la imagen abajo
    - Muestra cómo es la interdependendencia entre cada etapa del procesamiento. 
 :::
 
@@ -771,16 +780,16 @@ tar_option_set(
 # Definimos pipeline
 pipeline = list(
   tar_target(
-    raw_data,
-    read_my_data("data/data.csv")
+    raw_data, # nombre
+    read_my_data("data/data.csv") # proceso
   ),
   tar_target(
-    processed_data,
-    process_data(raw_data)
+    processed_data, # nombre
+    process_data(raw_data) # proceso
   ),
   tar_target(
-    final_data,
-    edit_data(processed_data)
+    final_data, # nombre
+    edit_data(processed_data) # proceso
   )
 )
 ```
@@ -789,7 +798,7 @@ pipeline = list(
 
 ## Implementando en R
 
-Finalmente tenemos una archivo donde correremos el pipeline
+Finalmente tenemos un archivo donde correremos el pipeline
 
 ``` {r}
 #| echo: true
@@ -915,18 +924,14 @@ Quedan invitados a revisar [su documentación](https://books.ropensci.org/target
 
 ---
 
-## {#title-slide-end .center}
+# 
 
-![](imagenes/logo_portada2.png){width="200"}
+[<img src="imagenes/logo_portada2.png" width="40%"/>]{.center-justified}
 
-### Reproducibilidad II: control de versiones y orquestadores
+[**Reproducibilidad II: control de versiones y orquestadores**]{.big-par .center-justified}
 
-### Unidad de Gobierno de Datos
 
-#### Julio 2025
+[**Unidad de Gobierno de Datos**]{.big-par .center-justified}
 
----
+[**Julio 2025**]{.big-par .center-justified}
 
-## Ejemplo de uso 
-
-![](imagenes/esquema_git.png){fig-align="center" width="800"}

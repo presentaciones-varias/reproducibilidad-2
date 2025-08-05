@@ -1,7 +1,7 @@
 library(targets)
 
 # Load custom functions
-source("functions.R")
+source("functions2.R")
 
 # Seteamos opciones que se aplicarán en cada target 
 tar_option_set(
@@ -23,6 +23,7 @@ list(
   ),
   tar_target(
     final_data,
-    edit_data(processed_data)
+    edit_data(processed_data),
+    format = 'file'
   )
 )

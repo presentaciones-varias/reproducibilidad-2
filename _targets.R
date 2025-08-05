@@ -1,7 +1,7 @@
 library(targets)
 
 # Load custom functions
-source("functions2.R")
+source("functions.R")
 
 # Seteamos opciones que se aplicarán en cada target 
 tar_option_set(
@@ -14,16 +14,17 @@ tar_option_set(
 # Definimos pipeline
 list(
   tar_target(
-    raw_data,
-    read_my_data("data/data.csv")
+    raw_data, # nombre
+    read_my_data("data/data.csv") # proceso
   ),
   tar_target(
-    processed_data,
-    process_data(raw_data)
+    processed_data, # nombre
+    process_data(raw_data) # proceso
   ),
   tar_target(
-    final_data,
-    edit_data(processed_data),
-    format = 'file'
+    final_data, # nombre
+    edit_data(processed_data) # proceso
   )
 )
+
+
